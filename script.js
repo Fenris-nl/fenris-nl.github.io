@@ -55,6 +55,16 @@ async function RefreshAccessToken() {
 	}
 }
 
+// Helper function to measure text width
+function measureTextWidth(text, element) {
+    const canvas = measureTextWidth.canvas || (measureTextWidth.canvas = document.createElement("canvas"));
+    const context = canvas.getContext("2d");
+    const style = window.getComputedStyle(element);
+    
+    context.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+    return context.measureText(text).width;
+}
+
 async function GetCurrentlyPlaying(refreshInterval) {
 	try {
 		// Get the current player information from Spotify
@@ -186,7 +196,41 @@ function UpdateTextLabel(div, text) {
 	if (div.innerText != text) {
 		div.setAttribute("class", "text-fade");
 		setTimeout(() => {
-			div.innerText = text;
+			// Check if this is the song label div and handle scrolling text
+			if (div.id === "songLabel") {
+				// Clear any existing content
+				div.innerHTML = "";
+				
+				// Get the width of the text and container
+				const textWidth = measureTextWidth(text, div);
+				const containerWidth = div.offsetWidth;
+				
+				// If text is longer than container, add scrolling
+				if (textWidth > containerWidth) {
+					// Create container and scrolling span
+					const scrollContainer = document.createElement("div");
+					scrollContainer.className = "scrolling-text-container";
+					
+					const scrollingSpan = document.createElement("span");
+					scrollingSpan.className = "scrolling-text";
+					scrollingSpan.innerText = text;
+					
+					// Set CSS variables for the animation calculation
+					scrollingSpan.style.setProperty('--text-width', textWidth + 'px');
+					scrollingSpan.style.setProperty('--container-width', containerWidth + 'px');
+					
+					// Add to DOM
+					scrollContainer.appendChild(scrollingSpan);
+					div.appendChild(scrollContainer);
+				} else {
+					// If text fits, just display it normally
+					div.innerText = text;
+				}
+			} else {
+				// For other labels, just update text normally
+				div.innerText = text;
+			}
+			
 			div.setAttribute("class", "text-show");
 		}, 500);
 	}

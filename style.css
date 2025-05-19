@@ -139,11 +139,12 @@ body {
 #songLabel {
 	font-weight: bold;
 	font-size: 20px;	
-	width: calc(100%);
+	width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	transition: all 0.5s ease;
+	position: relative;
 }
 
 #progressBg {
@@ -189,4 +190,26 @@ body {
 .text-fade {
 	opacity: 0;
 	transition: all 0.25s ease;
+}
+
+/* Scrolling text animation for long song titles */
+@keyframes marquee {
+	0% { transform: translateX(0); }
+	10% { transform: translateX(0); } /* Pause at the beginning */
+	45% { transform: translateX(calc(-100% + 100% * var(--container-width) / var(--text-width))); }
+	55% { transform: translateX(calc(-100% + 100% * var(--container-width) / var(--text-width))); } /* Pause at the end */
+	90% { transform: translateX(0); }
+	100% { transform: translateX(0); }
+}
+
+.scrolling-text {
+	display: inline-block;
+	animation: marquee 15s linear infinite;
+	animation-play-state: running;
+	white-space: nowrap;
+}
+
+.scrolling-text-container {
+	overflow: hidden;
+	width: 100%;
 }
