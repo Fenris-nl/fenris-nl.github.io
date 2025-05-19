@@ -40,7 +40,7 @@ body {
 }
 
 #albumArtBox {
-	background: rgba(0, 0, 0, 0.5);
+	background: var(--bg-color);
 	position: relative;
 	border-radius: var(--corner-radius);
 	overflow: hidden;
@@ -132,6 +132,7 @@ body {
 	line-height: 1;
 	white-space: nowrap;
 	transition: all 0.5s ease;
+	color: var(--text-color);
 }
 
 #songLabel {
@@ -143,6 +144,7 @@ body {
 	white-space: nowrap;
 	transition: all 0.5s ease;
 	position: relative;
+	color: var(--text-color);
 }
 
 #progressBg {
@@ -168,16 +170,19 @@ body {
 	font-size: 16px;
 	font-weight: 700;
 	line-height: 2.2;
+	color: var(--text-color);
 }
 
 #progressTime {
 	position: absolute;
+	color: var(--text-color);
 }
 
 #timeRemaining {
 	position: absolute;
 	width: 100%;
 	text-align: right;
+	color: var(--text-color);
 }
 
 .text-show {

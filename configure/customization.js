@@ -53,8 +53,7 @@ function updateBrowserSourceURL() {
     if (hideAlbumArt) {
         url += '&hideAlbumArt=true';
     }
-    
-    // Convert hex color to RGB and add with opacity
+      // Convert hex color to RGB and add with opacity
     if (bgColor !== '#000000' || bgOpacity !== '0.5') {
         // Remove the # from hex color
         const hexColor = bgColor.substring(1);
@@ -62,6 +61,9 @@ function updateBrowserSourceURL() {
         const r = parseInt(hexColor.substring(0, 2), 16);
         const g = parseInt(hexColor.substring(2, 4), 16);
         const b = parseInt(hexColor.substring(4, 6), 16);
+        
+        // Log for debugging
+        console.debug(`Background color: RGB(${r}, ${g}, ${b}, ${bgOpacity})`);
         url += `&bgColor=${r},${g},${b},${bgOpacity}`;
     }
     
@@ -72,6 +74,9 @@ function updateBrowserSourceURL() {
         const r = parseInt(hexColor.substring(0, 2), 16);
         const g = parseInt(hexColor.substring(2, 4), 16);
         const b = parseInt(hexColor.substring(4, 6), 16);
+        
+        // Log for debugging
+        console.debug(`Text color: RGB(${r}, ${g}, ${b})`);
         url += `&textColor=${r},${g},${b}`;
     }
     
