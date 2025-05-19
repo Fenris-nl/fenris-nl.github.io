@@ -26,6 +26,38 @@ let refresh_token = "";
 let access_token = "";
 let browserSourceURL = "";
 
+// Store the password here (you can change this to any password you prefer)
+const ADMIN_PASSWORD = "spotify2025";
+
+// Check if user is already authenticated
+const isPasswordAuthenticated = sessionStorage.getItem('passwordAuthenticated') === 'true';
+if (isPasswordAuthenticated) {
+    document.getElementById('passwordContainer').style.display = 'none';
+}
+
+// Setup password listener
+document.getElementById('submitPassword').addEventListener('click', checkPassword);
+document.getElementById('passwordInput').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        checkPassword();
+    }
+});
+
+function checkPassword() {
+    const password = document.getElementById('passwordInput').value;
+    const errorElement = document.getElementById('passwordError');
+    
+    if (password === ADMIN_PASSWORD) {
+        // Store authentication in session storage
+        sessionStorage.setItem('passwordAuthenticated', 'true');
+        document.getElementById('passwordContainer').style.display = 'none';
+        errorElement.textContent = '';
+    } else {
+        errorElement.textContent = 'Incorrect password. Please try again.';
+        document.getElementById('passwordInput').value = '';
+    }
+}
+
 // Import user management (defined in users.js)
 // Define a simple version if it doesn't exist (for backwards compatibility)
 if (typeof UserManager === 'undefined') {

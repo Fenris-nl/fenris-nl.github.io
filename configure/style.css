@@ -10,6 +10,67 @@ body {
 	font-size: 24px;
 }
 
+#passwordContainer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+}
+
+#passwordBox {
+	background-color: #252525;
+	border-radius: var(--corner-radius);
+	padding: 30px;
+	width: 350px;
+	text-align: center;
+	color: white;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#passwordBox h2 {
+	margin-top: 0;
+	color: #1DB954;
+}
+
+#passwordInput {
+	width: 100%;
+	padding: 10px;
+	margin: 10px 0;
+	border-radius: 5px;
+	border: none;
+	background-color: #333;
+	color: white;
+	font-size: 16px;
+	box-sizing: border-box;
+}
+
+#submitPassword {
+	background-color: #1DB954;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	margin-top: 10px;
+}
+
+#submitPassword:hover {
+	background-color: #1ed760;
+}
+
+.error {
+	color: #ff4444;
+	margin-top: 10px;
+	font-size: 14px;
+}
+
 #mainContainer {
 	position: absolute;
 	width: 100vw;
