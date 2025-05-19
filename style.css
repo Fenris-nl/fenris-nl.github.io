@@ -194,22 +194,29 @@ body {
 
 /* Scrolling text animation for long song titles */
 @keyframes marquee {
-	0% { transform: translateX(0); }
-	10% { transform: translateX(0); } /* Pause at the beginning */
-	45% { transform: translateX(calc(-100% + 100% * var(--container-width) / var(--text-width))); }
-	55% { transform: translateX(calc(-100% + 100% * var(--container-width) / var(--text-width))); } /* Pause at the end */
-	90% { transform: translateX(0); }
-	100% { transform: translateX(0); }
+	0%, 10% {
+		transform: translateX(0);
+	}
+	45%, 55% {
+		transform: translateX(calc(var(--container-width) - var(--text-width)));
+	}
+	90%, 100% {
+		transform: translateX(0);
+	}
 }
 
 .scrolling-text {
 	display: inline-block;
-	animation: marquee 15s linear infinite;
-	animation-play-state: running;
+	position: absolute;
+	top: 0;
+	left: 0;
 	white-space: nowrap;
+	animation: marquee 15s linear infinite;
 }
 
 .scrolling-text-container {
+	position: relative;
 	overflow: hidden;
 	width: 100%;
+	height: 100%;
 }
