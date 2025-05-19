@@ -159,11 +159,14 @@ async function FetchAccessToken(code) {
                 UserManager.updateUser(currentUser.username, {
                     refreshToken: refresh_token
                 });
-            }
-
-            browserSourceURL = `${baseURL}?client_id=${client_id}&client_secret=${client_secret}&refresh_token=${refresh_token}`;
+            }            browserSourceURL = `${baseURL}?client_id=${client_id}&client_secret=${client_secret}&refresh_token=${refresh_token}`;
             document.getElementById("authorizationBox").style.display = 'inline';
             hideStatus();
+            
+            // Setup any customization listeners if needed
+            if (typeof setupCustomizationListeners === 'function') {
+                setupCustomizationListeners();
+            }
         } else {
             // Handle HTTP error responses
             console.error(`Error ${response.status}: ${response.statusText}`);
@@ -270,4 +273,11 @@ function OpenInstructions() {
 }
 
 function OpenDonationPage() {
-    window.open("http://nutty.gg/pages/donate", '_blank').focus();}
+    window.open("http://nutty.gg/pages/donate", '_blank').focus();
+}
+
+// Empty function to prevent errors if called
+function setupCustomizationListeners() {
+    // This is an empty implementation to prevent errors
+    console.log("Customization options are not available in this version");
+}
