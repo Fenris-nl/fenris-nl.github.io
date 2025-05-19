@@ -12,6 +12,9 @@
 		<div id="connectBox">
 			<div style="text-align: center;">
 				<img src="logo.webp" width="60%">
+				<div id="userDisplay" style="margin-top: 10px; font-size: 16px;">
+					Not logged in
+				</div>
 			</div>
 			<label>
 				<br>
@@ -28,6 +31,8 @@
 				<button id="authorizeButton" onclick="RequestAuthorization()">Authorize</button>
 				<br><br>
 				<button id="instructionsButton" onclick="OpenInstructions()">Instructions</button>
+				<br><br>
+				<button id="manageUsersButton" onclick="window.location.href='users.html'" style="background-color: #2e2e2e;">Manage Users</button>
 			</label>
 		</div>
 		<div id="authorizationBox">
@@ -44,6 +49,8 @@
 			<button id="donateButton" onclick="OpenDonationPage()">Donate out of guilt</button>
 		</div>
 	</div>
+	<script src="./users.js"></script>
+	<script src="./userInterface.js"></script>
 	<script src="./script.js"></script>
 </body>
 </html>

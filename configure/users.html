@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Management - Spotify Widget</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="#" />
+    <link rel="stylesheet" href="./style.css" />
+    <style>
+        .user-card {
+            background-color: #282828;
+            border-radius: var(--corner-radius);
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .user-actions button {
+            width: auto;
+            padding: 8px 15px;
+            font-size: 16px;
+        }
+        
+        .delete-btn {
+            background-color: #E22134;
+        }
+        
+        .user-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 20px 0;
+        }
+        
+        .username {
+            font-weight: 500;
+            font-size: 20px;
+        }
+        
+        #addUserForm {
+            margin-top: 30px;
+        }
+        
+        .user-status {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .user-status.connected {
+            color: #1DB954;
+        }
+        
+        .user-status.not-connected {
+            color: #E22134;
+        }
+        
+        #backButton {
+            background-color: #333;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mainContainer">
+        <div id="usersBox">
+            <div style="text-align: center;">
+                <img src="logo.webp" width="60%">
+                <h1>User Management</h1>
+            </div>
+            
+            <div class="user-list" id="userList">
+                <!-- User cards will be inserted here dynamically -->
+            </div>
+            
+            <div id="addUserForm">
+                <h2>Add New User</h2>
+                <input type="text" id="newUsername" placeholder="Username">
+                <button id="addUserButton">Create User</button>
+            </div>
+            
+            <button id="backButton" onclick="window.location.href='index.html'">Back to Configure</button>
+        </div>
+    </div>
+    <script src="./users.js"></script>
+</body>
+</html>

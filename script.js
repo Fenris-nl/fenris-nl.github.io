@@ -5,9 +5,24 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
-const client_id = urlParams.get("client_id") || "";
-const client_secret = urlParams.get("client_secret") || "";
-let refresh_token = urlParams.get("refresh_token") || "";
+// Get credentials from user management or URL parameters
+let credentials = { client_id: "", client_secret: "", refresh_token: "" };
+
+// Check if we have the getUserCredentials function from userCredentials.js
+if (typeof getUserCredentials === 'function') {
+    credentials = getUserCredentials();
+} else {
+    // Fallback to just URL parameters if the user system isn't loaded
+    credentials = {
+        client_id: urlParams.get("client_id") || "",
+        client_secret: urlParams.get("client_secret") || "",
+        refresh_token: urlParams.get("refresh_token") || ""
+    };
+}
+
+const client_id = credentials.client_id;
+const client_secret = credentials.client_secret;
+let refresh_token = credentials.refresh_token;
 let access_token = "";
 
 const visibilityDuration = urlParams.get("duration") || 0;
@@ -236,7 +251,12 @@ function SetVisibility(isVisible, updateCurrentState = true) {
 			statusContainer.innerHTML = "No track playing";
 			statusContainer.style.opacity = 1;
 		} else if (!client_id || !client_secret || !refresh_token) {
-			statusContainer.innerHTML = "Missing authentication parameters";
+			const username = urlParams.get("username");
+			if (username) {
+				statusContainer.innerHTML = `No credentials for user: ${username}`;
+			} else {
+				statusContainer.innerHTML = "Missing authentication parameters";
+			}
 			statusContainer.style.opacity = 1;
 		}
 	}

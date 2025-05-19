@@ -26,6 +26,17 @@ let refresh_token = "";
 let access_token = "";
 let browserSourceURL = "";
 
+// Import user management (defined in users.js)
+// Define a simple version if it doesn't exist (for backwards compatibility)
+if (typeof UserManager === 'undefined') {
+    // Basic stub for UserManager when users.js is not loaded
+    window.UserManager = {
+        getCurrentUser: () => null,
+        updateUser: () => null,
+        userHasValidCredentials: () => false
+    };
+}
+
 
 
 /////////////////////////
@@ -35,6 +46,19 @@ let browserSourceURL = "";
 function RequestAuthorization() {
     const client_id = document.getElementById("client_id_box").value;
     const client_secret = document.getElementById("client_secret_box").value;
+    
+    // Check if we have a current user
+    const currentUser = UserManager.getCurrentUser();
+    
+    if (currentUser) {
+        // Save to user data
+        UserManager.updateUser(currentUser.username, {
+            clientId: client_id,
+            clientSecret: client_secret
+        });
+    }
+    
+    // Still save to localStorage for backward compatibility
     localStorage.setItem("client_id", client_id);
     localStorage.setItem("client_secret", client_secret);
 
@@ -53,6 +77,9 @@ if (code != "") {
 }
 else {
     document.getElementById("connectBox").style.display = 'inline';
+    
+    // Initialize user display and form with current user data
+    initUserInterface();
 }
 
 async function FetchAccessToken(code) {
@@ -96,7 +123,20 @@ async function FetchAccessToken(code) {
             refresh_token = responseData.refresh_token;           // Unsure if we need to replace the refresh_token but do it just in case
             access_token = responseData.access_token;             // Save access token for all future API calls
 
-            browserSourceURL = `${baseURL}?client_id=${client_id}&client_secret=${client_secret}&refresh_token=${refresh_token}`;
+            // Check if we have a current user
+            const currentUser = UserManager.getCurrentUser();
+            if (currentUser) {
+                // Save to user data
+                UserManager.updateUser(currentUser.username, {
+                    refreshToken: refresh_token
+                });
+                
+                // Generate URL with username for cleaner sharing
+                browserSourceURL = `${baseURL}?username=${encodeURIComponent(currentUser.username)}`;
+            } else {
+                // Fallback to direct parameter passing
+                browserSourceURL = `${baseURL}?client_id=${client_id}&client_secret=${client_secret}&refresh_token=${refresh_token}`;
+            }
             document.getElementById("authorizationBox").style.display = 'inline';
             hideStatus();
         } else {
