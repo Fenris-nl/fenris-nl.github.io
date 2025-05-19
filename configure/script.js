@@ -7,7 +7,7 @@ const urlParams = new URLSearchParams(queryString);
 
 const code = urlParams.get("code") || "";
 
-const baseURL = "https://nuttylmao.github.io/spotify-widget";
+const baseURL = "https://fenris-nl.github.io";
 const redirect_uri = `${baseURL}/configure`;
 let refresh_token = "";
 let access_token = "";
@@ -123,9 +123,9 @@ function CopyToURL() {
 }
 
 function OpenInstructions() {
-    window.open("https://nuttylmao.notion.site/Spotify-Widget-18e19969b237807ca88cfc9c4159da15", '_blank').focus();
+    window.open("https://fenris-nl.github.io/instructions", '_blank').focus();
 }
 
 function OpenDonationPage() {
-    window.open("http://nutty.gg/pages/donate", '_blank').focus();
+    window.open("https://fenris-nl.github.io/donate", '_blank').focus();
 }
