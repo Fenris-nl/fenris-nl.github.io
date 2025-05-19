@@ -10,8 +10,7 @@ function getUserCredentials() {
     let client_id = urlParams.get("client_id") || "";
     let client_secret = urlParams.get("client_secret") || "";
     let refresh_token = urlParams.get("refresh_token") || "";
-    
-    // If URL has a specific username, load that user
+      // If URL has a specific username, load that user
     const username = urlParams.get("username");
     if (username && window.UserManager) {
         const user = UserManager.getUser(username);
@@ -20,6 +19,10 @@ function getUserCredentials() {
             client_id = user.clientId || client_id;
             client_secret = user.clientSecret || client_secret;
             refresh_token = user.refreshToken || refresh_token;
+        } else if (user) {
+            console.warn(`User found but has invalid credentials: ${username}`);
+        } else {
+            console.warn(`User not found: ${username}`);
         }
     }
     // If no username specified but we have UserManager, try current user
