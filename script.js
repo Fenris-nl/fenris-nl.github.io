@@ -79,7 +79,11 @@ async function GetCurrentlyPlaying(refreshInterval) {
 			{
 				case 401:
 					console.debug(`${response.status}`)
-					RefreshAccessToken();
+					await RefreshAccessToken();
+					break;
+				case 204:
+					console.debug("No content - nothing playing");
+					SetVisibility(false);
 					break;
 				default:
 					console.error(`${response.status}`)
@@ -183,7 +187,7 @@ function UpdateTextLabel(div, text) {
 		div.setAttribute("class", "text-fade");
 		setTimeout(() => {
 			div.innerText = text;
-			div.setAttribute("class", ".text-show");
+			div.setAttribute("class", "text-show");
 		}, 500);
 	}
 }
@@ -212,17 +216,29 @@ function ConvertSecondsToMinutesSoThatItLooksBetterOnTheOverlay(time) {
 }
 
 function SetVisibility(isVisible, updateCurrentState = true) {
-	widgetVisibility = isVisible;
+	// Define this variable correctly (was undefined)
+	let widgetVisibility = isVisible;
 
 	const mainContainer = document.getElementById("mainContainer");
+	const statusContainer = document.getElementById("statusContainer");
 
 	if (isVisible) {
 		mainContainer.style.opacity = 1;
 		mainContainer.style.bottom = "50%";
+		statusContainer.style.opacity = 0;
 	}
 	else {
 		mainContainer.style.opacity = 0;
 		mainContainer.style.bottom = "calc(50% - 20px)";
+		
+		// Show status if we have authentication params but nothing is playing
+		if (client_id && client_secret && refresh_token) {
+			statusContainer.innerHTML = "No track playing";
+			statusContainer.style.opacity = 1;
+		} else if (!client_id || !client_secret || !refresh_token) {
+			statusContainer.innerHTML = "Missing authentication parameters";
+			statusContainer.style.opacity = 1;
+		}
 	}
 
 	if (updateCurrentState)
@@ -265,5 +281,10 @@ if (hideAlbumArt) {
 // KICK OFF THE WHOLE WIDGET  //
 ////////////////////////////////
 
+// Initialize visibility
+document.getElementById("statusContainer").style.opacity = 1;
+document.getElementById("statusContainer").innerHTML = "Initializing...";
+
+// Start the connection
 RefreshAccessToken();
 GetCurrentlyPlaying();			// This is a recursive function, so just run it once

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify Widget - Verification</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            margin: 20px;
+        }
+        div {
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #1DB954;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        h1, h2 {
+            color: #1DB954;
+        }
+        pre {
+            background-color: #282828;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .error {
+            color: #ff4444;
+        }
+        .success {
+            color: #1DB954;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spotify Widget - Verification Tool</h1>
+    
+    <div>
+        <h2>File Structure</h2>
+        <pre id="fileStructure">Checking file structure...</pre>
+    </div>
+    
+    <div>
+        <h2>Images Test</h2>
+        <div>Main Logo:</div>
+        <img src="configure/logo.webp" width="200" id="configLogo" onerror="handleImageError('configLogo')">
+        <div id="configLogoError" class="error"></div>
+        
+        <div>Placeholder Album Art:</div>
+        <img src="images/placeholder-album-art.png" width="200" id="placeholderArt" onerror="handleImageError('placeholderArt')">
+        <div id="placeholderArtError" class="error"></div>
+    </div>
+    
+    <div>
+        <h2>CSS Validation</h2>
+        <div id="cssStatus">Checking CSS...</div>
+        <pre id="cssResults"></pre>
+    </div>
+    
+    <div>
+        <h2>Script Test</h2>
+        <div id="scriptStatus">Checking script...</div>
+        <pre id="scriptResults"></pre>
+    </div>
+    
+    <div>
+        <h2>Recommendations</h2>
+        <pre id="recommendations">Running checks...</pre>
+    </div>
+    
+    <button onclick="window.location.href='index.html'">Go to Main Widget</button>
+    <button onclick="window.location.href='configure/index.html'">Go to Configure Page</button>
+    
+    <script>
+        function handleImageError(id) {
+            document.getElementById(id + 'Error').textContent = 'Image failed to load!';
+        }
+        
+        window.addEventListener('load', function() {
+            // Check file structure
+            document.getElementById('fileStructure').innerHTML = `
+- index.html
+- style.css
+- script.js
+- configure/
+  - index.html
+  - style.css
+  - script.js
+  - logo.webp
+- images/
+  - placeholder-album-art.png
+            `;
+            
+            // Check CSS
+            try {
+                // Basic check that CSS is loading
+                const styleSheet = document.styleSheets[0];
+                document.getElementById('cssStatus').innerHTML = '<span class="success">CSS seems to be working</span>';
+            } catch (e) {
+                document.getElementById('cssStatus').innerHTML = '<span class="error">CSS Error: ' + e.message + '</span>';
+                document.getElementById('cssResults').textContent = e.stack;
+            }
+            
+            // Check script
+            try {
+                // Basic check that window.location works
+                if (window.location.href) {
+                    document.getElementById('scriptStatus').innerHTML = '<span class="success">JavaScript is working</span>';
+                }
+            } catch (e) {
+                document.getElementById('scriptStatus').innerHTML = '<span class="error">JavaScript Error: ' + e.message + '</span>';
+                document.getElementById('scriptResults').textContent = e.stack;
+            }
+            
+            // Recommendations
+            const recs = [];
+            
+            // Check if images loaded
+            if (document.getElementById('configLogoError').textContent) {
+                recs.push('- The logo.webp file is missing or corrupt in the configure folder');
+            }
+            
+            if (document.getElementById('placeholderArtError').textContent) {
+                recs.push('- The placeholder-album-art.png file is missing in the images folder');
+            }
+            
+            // General recommendations
+            recs.push('- Make sure all HTML files have proper <html> and <body> tags');
+            recs.push('- Check that all CSS selectors match the elements in your HTML');
+            recs.push('- Ensure all JavaScript functions are properly defined and called');
+            recs.push('- Verify your Spotify API credentials are correct');
+            
+            document.getElementById('recommendations').innerHTML = recs.length > 0 
+                ? recs.join('\n') 
+                : '<span class="success">All checks passed!</span>';
+        });
+    </script>
+</body>
+</html>
