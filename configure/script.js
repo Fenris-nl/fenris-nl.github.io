@@ -269,11 +269,11 @@ function CopyToURL() {
 }
 
 function OpenInstructions() {
-    window.open("https://nuttylmao.notion.site/Spotify-Widget-18e19969b237807ca88cfc9c4159da15", '_blank').focus();
+    window.open("#", '_blank').focus();
 }
 
 function OpenDonationPage() {
-    window.open("http://nutty.gg/pages/donate", '_blank').focus();
+    window.open("https://paypal.me/kerdem97?country.x=NL&locale.x=nl_NL", '_blank').focus();
 }
 
 // Empty function to prevent errors if called
