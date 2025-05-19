@@ -13,59 +13,6 @@ let access_token = "";
 const visibilityDuration = urlParams.get("duration") || 0;
 const hideAlbumArt = urlParams.has("hideAlbumArt");
 
-// Apply custom styling options if provided
-const bgColorParam = urlParams.get("bgColor");
-const textColorParam = urlParams.get("textColor");
-
-// Log for debugging
-console.debug(`Background color param: ${bgColorParam}`);
-console.debug(`Text color param: ${textColorParam}`);
-
-// Apply custom background color if provided
-if (bgColorParam) {
-    const parts = bgColorParam.split(',');
-    const r = parts[0] || 0;
-    const g = parts[1] || 0;
-    const b = parts[2] || 0;
-    const a = parts[3] || 0.5;
-    
-    const bgColorValue = `rgba(${r}, ${g}, ${b}, ${a})`;
-    console.debug(`Setting background color to: ${bgColorValue}`);
-    document.documentElement.style.setProperty('--bg-color', bgColorValue);
-    
-    // Direct application of styles as a fallback
-    window.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('albumArtBox').style.background = bgColorValue;
-        document.getElementById('songInfo').style.background = bgColorValue;
-    });
-} else {
-    document.documentElement.style.setProperty('--bg-color', 'rgba(0, 0, 0, 0.5)');
-}
-
-// Apply custom text color if provided
-if (textColorParam) {
-    const parts = textColorParam.split(',');
-    const r = parts[0] || 255;
-    const g = parts[1] || 255;
-    const b = parts[2] || 255;
-    
-    const textColorValue = `rgb(${r}, ${g}, ${b})`;
-    console.debug(`Setting text color to: ${textColorValue}`);
-    document.documentElement.style.setProperty('--text-color', textColorValue);
-    
-    // Direct application of styles as a fallback
-    window.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('songInfoBox').style.color = textColorValue;
-        document.getElementById('artistLabel').style.color = textColorValue;
-        document.getElementById('songLabel').style.color = textColorValue;
-        document.getElementById('progressTime').style.color = textColorValue;
-        document.getElementById('timeRemaining').style.color = textColorValue;
-        document.getElementById('progressBar').style.backgroundColor = textColorValue;
-    });
-} else {
-    document.documentElement.style.setProperty('--text-color', 'rgb(255, 255, 255)');
-}
-
 let currentState = false;
 let currentSongUri = "";
 
@@ -385,13 +332,6 @@ if (hideAlbumArt) {
 // Initialize visibility
 document.getElementById("statusContainer").style.opacity = 1;
 document.getElementById("statusContainer").innerHTML = "Initializing...";
-
-// Log customization settings for debugging
-console.debug("Widget initialized with the following customization settings:");
-console.debug(`- Background color: ${bgColorParam || 'default'}`);
-console.debug(`- Text color: ${textColorParam || 'default'}`);
-console.debug(`- Hide album art: ${hideAlbumArt ? 'yes' : 'no'}`);
-console.debug(`- Visibility duration: ${visibilityDuration || 'never hide'}`);
 
 // Start the connection
 RefreshAccessToken();
