@@ -62,7 +62,9 @@ function measureTextWidth(text, element) {
     const style = window.getComputedStyle(element);
     
     context.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-    return context.measureText(text).width;
+    
+    // Add a small buffer to ensure text doesn't get cut off
+    return Math.ceil(context.measureText(text).width) + 10;
 }
 
 async function GetCurrentlyPlaying(refreshInterval) {
@@ -215,13 +217,15 @@ function UpdateTextLabel(div, text) {
 					scrollingSpan.className = "scrolling-text";
 					scrollingSpan.innerText = text;
 					
-					// Set CSS variables for the animation calculation
-					scrollingSpan.style.setProperty('--text-width', textWidth + 'px');
-					scrollingSpan.style.setProperty('--container-width', containerWidth + 'px');
+					// Calculate and set scroll distance
+					const scrollDistance = textWidth - containerWidth;
+					scrollingSpan.style.setProperty('--scroll-distance', scrollDistance + 'px');
 					
 					// Add to DOM
 					scrollContainer.appendChild(scrollingSpan);
 					div.appendChild(scrollContainer);
+					
+					console.debug(`Text width: ${textWidth}px, Container width: ${containerWidth}px, Scroll distance: ${scrollDistance}px`);
 				} else {
 					// If text fits, just display it normally
 					div.innerText = text;
