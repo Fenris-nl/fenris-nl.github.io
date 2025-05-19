@@ -150,9 +150,7 @@ async function FetchAccessToken(code) {
             const responseData = await response.json();
             console.debug(responseData);
             refresh_token = responseData.refresh_token;           // Unsure if we need to replace the refresh_token but do it just in case
-            access_token = responseData.access_token;             // Save access token for all future API calls
-
-            // Check if we have a current user
+            access_token = responseData.access_token;             // Save access token for all future API calls            // Check if we have a current user
             const currentUser = UserManager.getCurrentUser();
             if (currentUser) {
                 // Save to user data
@@ -161,9 +159,13 @@ async function FetchAccessToken(code) {
                 });
             }
 
-            browserSourceURL = `${baseURL}?client_id=${client_id}&client_secret=${client_secret}&refresh_token=${refresh_token}`;
+            // Prepare to show configuration options
             document.getElementById("authorizationBox").style.display = 'inline';
             hideStatus();
+            
+            // Setup customization options
+            setupCustomizationListeners();
+            updateBrowserSourceURL();
         } else {
             // Handle HTTP error responses
             console.error(`Error ${response.status}: ${response.statusText}`);

@@ -13,6 +13,26 @@ let access_token = "";
 const visibilityDuration = urlParams.get("duration") || 0;
 const hideAlbumArt = urlParams.has("hideAlbumArt");
 
+// Apply custom styling options if provided
+const bgColorParam = urlParams.get("bgColor");
+const textColorParam = urlParams.get("textColor");
+
+// Apply custom background color if provided
+if (bgColorParam) {
+    const [r, g, b, a] = bgColorParam.split(',');
+    document.documentElement.style.setProperty('--bg-color', `rgba(${r}, ${g}, ${b}, ${a || 0.5})`);
+} else {
+    document.documentElement.style.setProperty('--bg-color', 'rgba(0, 0, 0, 0.5)');
+}
+
+// Apply custom text color if provided
+if (textColorParam) {
+    const [r, g, b] = textColorParam.split(',');
+    document.documentElement.style.setProperty('--text-color', `rgb(${r}, ${g}, ${b})`);
+} else {
+    document.documentElement.style.setProperty('--text-color', 'rgb(255, 255, 255)');
+}
+
 let currentState = false;
 let currentSongUri = "";
 

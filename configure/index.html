@@ -53,12 +53,37 @@
 				<br><br>
 				You now owe me money for all of my hard work.
 			</label>
+					<div id="customizationOptions">
+				<h3>Widget Customization</h3>
+				<p class="customization-info">Customize the appearance of your widget. These settings are saved in the URL and apply only to your widget.</p>
+				<div class="optionGroup">
+					<label for="hideAlbumArt">
+						<input type="checkbox" id="hideAlbumArt"> Hide Album Art
+					</label>
+				</div>
+				<div class="optionGroup">
+					<label for="bgColor">Background Color:</label>
+					<input type="color" id="bgColor" value="#000000">
+					<label for="bgOpacity">Opacity:</label>
+					<input type="range" id="bgOpacity" min="0" max="1" step="0.1" value="0.5">
+				</div>
+				<div class="optionGroup">
+					<label for="textColor">Text Color:</label>
+					<input type="color" id="textColor" value="#ffffff">
+				</div>
+				<div class="optionGroup">
+					<label for="visibilityDuration">Hide after inactivity (seconds):</label>
+					<input type="number" id="visibilityDuration" min="0" value="0">
+					<span class="hint">(0 = never hide)</span>
+				</div>
+			</div>
+			
 			<button id="copyURLButton" onclick="CopyToURL()">Click to copy URL</button>
 			<br><br>
 			<button id="donateButton" onclick="OpenDonationPage()">Donate out of guilt</button>
 		</div>
-	</div>
-	<script src="./users.js"></script>
+	</div>	<script src="./users.js"></script>
+	<script src="./customization.js"></script>
 	<script src="./script.js"></script>
 </body>
 </html>

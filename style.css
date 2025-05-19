@@ -1,6 +1,8 @@
 * {
 	--corner-radius: 10px;
 	--album-art-size: 100px;
+	--bg-color: rgba(0, 0, 0, 0.5);
+	--text-color: rgb(255, 255, 255);
 }
 
 body {
@@ -64,7 +66,7 @@ body {
 
 #songInfoBox {
 	position: relative;
-	color: white;
+	color: var(--text-color);
 	width: calc(100% - 125px);
 	display: flex;
 	flex-direction: column;
@@ -77,7 +79,7 @@ body {
 }
 
 #songInfo {
-	background: rgba(0, 0, 0, 0.5);
+	background: var(--bg-color);
 	opacity: 0.9;
 	position: relative;
 	border-radius: var(--corner-radius);
@@ -155,7 +157,7 @@ body {
 	border-radius: 5px;
 	height: 5px;
 	width: 20%;
-	background-color: #ffffff;
+	background-color: var(--text-color);
 	margin: 10px 0px;
 	transition: all 1s ease;
 }
