@@ -77,9 +77,6 @@ if (code != "") {
 }
 else {
     document.getElementById("connectBox").style.display = 'inline';
-    
-    // Initialize user display and form with current user data
-    initUserInterface();
 }
 
 async function FetchAccessToken(code) {
@@ -130,13 +127,9 @@ async function FetchAccessToken(code) {
                 UserManager.updateUser(currentUser.username, {
                     refreshToken: refresh_token
                 });
-                
-                // Generate URL with username for cleaner sharing
-                browserSourceURL = `${baseURL}?username=${encodeURIComponent(currentUser.username)}`;
-            } else {
-                // Fallback to direct parameter passing
-                browserSourceURL = `${baseURL}?client_id=${client_id}&client_secret=${client_secret}&refresh_token=${refresh_token}`;
             }
+
+            browserSourceURL = `${baseURL}?client_id=${client_id}&client_secret=${client_secret}&refresh_token=${refresh_token}`;
             document.getElementById("authorizationBox").style.display = 'inline';
             hideStatus();
         } else {
