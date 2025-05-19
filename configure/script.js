@@ -7,7 +7,7 @@ const urlParams = new URLSearchParams(queryString);
 
 const code = urlParams.get("code") || "";
 
-const baseURL = "https://fenris-nl.github.io";
+const baseURL = "https://fenris-nl.github.io/configure";
 const redirect_uri = `${baseURL}/configure`;
 let refresh_token = "";
 let access_token = "";
