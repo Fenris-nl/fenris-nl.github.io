@@ -237,6 +237,47 @@ const clientIdBox = document.getElementById('client_id_box');
 const clientSecretBox = document.getElementById('client_secret_box');
 const authorizeButton = document.getElementById('authorizeButton');
 
+// Setup listeners for customization options
+function setupCustomizationListeners() {
+    const elements = [
+        'hideAlbumArt',
+        'bgColor',
+        'bgOpacity',
+        'textColor',
+        'visibilityDuration'
+    ];
+    elements.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', updateBrowserSourceURL);
+            el.addEventListener('change', updateBrowserSourceURL);
+        }
+    });
+}
+
+function updateBrowserSourceURL() {
+    const params = new URLSearchParams();
+    params.set('client_id', localStorage.getItem('client_id'));
+    params.set('client_secret', localStorage.getItem('client_secret'));
+    params.set('refresh_token', refresh_token);
+
+    const bgColor = document.getElementById('bgColor').value.replace('#', '');
+    const bgOpacity = document.getElementById('bgOpacity').value;
+    const textColor = document.getElementById('textColor').value.replace('#', '');
+    const duration = document.getElementById('visibilityDuration').value;
+
+    if (document.getElementById('hideAlbumArt').checked) {
+        params.set('hideAlbumArt', '1');
+    }
+    if (bgColor) params.set('bgColor', bgColor);
+    if (bgOpacity) params.set('bgOpacity', bgOpacity);
+    if (textColor) params.set('textColor', textColor);
+    if (duration && parseInt(duration) > 0) params.set('duration', duration);
+
+    browserSourceURL = `${baseURL}/?${params.toString()}`;
+    document.getElementById('copyURLButton').disabled = false;
+}
+
 // Function to check if either input is empty
 function checkInputs() {
     if (clientIdBox.value.trim() === '' || clientSecretBox.value.trim() === '') {

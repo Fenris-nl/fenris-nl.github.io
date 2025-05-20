@@ -13,6 +13,38 @@ let access_token = "";
 const visibilityDuration = urlParams.get("duration") || 0;
 const hideAlbumArt = urlParams.has("hideAlbumArt");
 
+// Customization parameters
+const bgColorHex = urlParams.get("bgColor") || "";
+const bgOpacity = parseFloat(urlParams.get("bgOpacity") || "0.5");
+const textColorHex = urlParams.get("textColor") || "";
+
+// Convert hex color to rgba string
+function hexToRGBA(hex, opacity = 1) {
+    let h = hex.replace('#', '');
+    if (h.length === 3) {
+        h = h.split('').map(c => c + c).join('');
+    }
+    const bigint = parseInt(h, 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+function applyCustomStyles() {
+    if (bgColorHex) {
+        document.documentElement.style.setProperty('--bg-color', hexToRGBA(bgColorHex, bgOpacity));
+    } else if (urlParams.has('bgOpacity')) {
+        // Opacity without color
+        document.documentElement.style.setProperty('--bg-color', hexToRGBA('000000', bgOpacity));
+    }
+    if (textColorHex) {
+        document.documentElement.style.setProperty('--text-color', `#${textColorHex}`);
+    }
+}
+
+applyCustomStyles();
+
 let currentState = false;
 let currentSongUri = "";
 
