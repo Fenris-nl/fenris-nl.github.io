@@ -89,12 +89,13 @@ body {
 }
 
 #IAmRunningOutOfNamesForTheseBoxes {
-	position: absolute;
-	width: calc(100% - 40px);
-	position: absolute;
-	top: 50%;
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
+        position: absolute;
+        width: calc(100% - 40px);
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        color: var(--text-color);
 }
 
 #backgroundArt {

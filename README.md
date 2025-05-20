@@ -78,6 +78,10 @@ You can customize the widget further by adding these parameters to your URL:
   - Example: `https://fenris-nl.github.io/?client_id=...&duration=10`
 - **Hide album art**: Add `&hideAlbumArt` to your URL
   - Example: `https://fenris-nl.github.io/?client_id=...&hideAlbumArt`
+- **Background color and opacity**: Add `&bgColor=HEX&bgOpacity=0.5`
+  - Example: `https://fenris-nl.github.io/?client_id=...&bgColor=ff0000&bgOpacity=0.3`
+- **Text color**: Add `&textColor=HEX`
+  - Example: `https://fenris-nl.github.io/?client_id=...&textColor=00ff00`
 - **Combine parameters**: You can use both options together
   - Example: `https://fenris-nl.github.io/?client_id=...&duration=10&hideAlbumArt`
 
