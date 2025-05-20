@@ -35,14 +35,22 @@ function applyCustomStyles() {
     if (bgColorHex) {
         document.documentElement.style.setProperty('--bg-color', hexToRGBA(bgColorHex, bgOpacity));
     } else if (urlParams.has('bgOpacity')) {
-        // Opacity without color
         document.documentElement.style.setProperty('--bg-color', hexToRGBA('000000', bgOpacity));
     }
+
     if (textColorHex) {
-        document.documentElement.style.setProperty('--text-color', `#${textColorHex}`);
+        const textCol = `#${textColorHex}`;
+        document.documentElement.style.setProperty('--text-color', textCol);
+
+        // Optional: also apply to a specific container
+        const container = document.getElementById('IAmRunningOutOfNamesForTheseBoxes');
+        if (container) {
+            container.style.color = textCol;
+        }
     }
 }
 
+// Apply once immediately…
 applyCustomStyles();
 
 let currentState = false;
