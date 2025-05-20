@@ -269,11 +269,15 @@ function SetVisibility(isVisible, updateCurrentState = true) {
 
 	const mainContainer = document.getElementById("mainContainer");
 	const statusContainer = document.getElementById("statusContainer");
+	const statusText = document.getElementById("statusText");
+	const placeholderArt = document.getElementById("placeholderArt");
 
 	if (isVisible) {
 		mainContainer.style.opacity = 1;
 		mainContainer.style.bottom = "50%";
 		statusContainer.style.opacity = 0;
+		statusText.style.display = "inline";
+		placeholderArt.style.display = "none";
 	}
 	else {
 		mainContainer.style.opacity = 0;
@@ -281,10 +285,13 @@ function SetVisibility(isVisible, updateCurrentState = true) {
 		
 		// Show status if we have authentication params but nothing is playing
 		if (client_id && client_secret && refresh_token) {
-			statusContainer.innerHTML = "No track playing";
+			statusText.style.display = "none";
+			placeholderArt.style.display = "inline-block";
 			statusContainer.style.opacity = 1;
 		} else if (!client_id || !client_secret || !refresh_token) {
-			statusContainer.innerHTML = "Missing authentication parameters";
+			statusText.innerText = "Missing authentication parameters";
+			statusText.style.display = "inline";
+			placeholderArt.style.display = "none";
 			statusContainer.style.opacity = 1;
 		}
 	}
@@ -331,7 +338,7 @@ if (hideAlbumArt) {
 
 // Initialize visibility
 document.getElementById("statusContainer").style.opacity = 1;
-document.getElementById("statusContainer").innerHTML = "Initializing...";
+document.getElementById("statusText").innerText = "Initializing...";
 
 // Start the connection
 RefreshAccessToken();
