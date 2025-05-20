@@ -11,8 +11,6 @@ body {
 	font-weight: 500;
 	font-size: 30px;
 	text-align: center;
-	background-color: #D12025;
-	color: white;
 	padding: 10px;
 	border-radius: 10px;
 	position: absolute;
@@ -20,6 +18,15 @@ body {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	opacity: 0;
+}
+
+#statusContainer.with-text {
+	background-color: #d1202600;
+	color: white;
+}
+
+#placeholderArt {
+	filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
 }
 
 #mainContainer {

@@ -278,6 +278,7 @@ function SetVisibility(isVisible, updateCurrentState = true) {
 		statusContainer.style.opacity = 0;
 		statusText.style.display = "inline";
 		placeholderArt.style.display = "none";
+		statusContainer.classList.add("with-text");
 	}
 	else {
 		mainContainer.style.opacity = 0;
@@ -287,11 +288,13 @@ function SetVisibility(isVisible, updateCurrentState = true) {
 		if (client_id && client_secret && refresh_token) {
 			statusText.style.display = "none";
 			placeholderArt.style.display = "inline-block";
+			statusContainer.classList.remove("with-text");
 			statusContainer.style.opacity = 1;
 		} else if (!client_id || !client_secret || !refresh_token) {
 			statusText.innerText = "Missing authentication parameters";
 			statusText.style.display = "inline";
 			placeholderArt.style.display = "none";
+			statusContainer.classList.add("with-text");
 			statusContainer.style.opacity = 1;
 		}
 	}
@@ -338,6 +341,7 @@ if (hideAlbumArt) {
 
 // Initialize visibility
 document.getElementById("statusContainer").style.opacity = 1;
+document.getElementById("statusContainer").classList.add("with-text");
 document.getElementById("statusText").innerText = "Initializing...";
 
 // Start the connection
