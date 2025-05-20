@@ -35,13 +35,14 @@ function applyCustomStyles() {
     if (bgColorHex) {
         document.documentElement.style.setProperty('--bg-color', hexToRGBA(bgColorHex, bgOpacity));
     } else if (urlParams.has('bgOpacity')) {
-        // Opacity without color
         document.documentElement.style.setProperty('--bg-color', hexToRGBA('000000', bgOpacity));
     }
+
     if (textColorHex) {
         const textCol = `#${textColorHex}`;
         document.documentElement.style.setProperty('--text-color', textCol);
 
+        // Optional: also apply to a specific container
         const container = document.getElementById('IAmRunningOutOfNamesForTheseBoxes');
         if (container) {
             container.style.color = textCol;
@@ -49,9 +50,8 @@ function applyCustomStyles() {
     }
 }
 
-// Apply once immediately and again after DOM loads to catch dynamic elements
+// Apply once immediately…
 applyCustomStyles();
-document.addEventListener('DOMContentLoaded', applyCustomStyles);
 
 let currentState = false;
 let currentSongUri = "";
