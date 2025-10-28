@@ -26,8 +26,17 @@ let refresh_token = "";
 let access_token = "";
 let browserSourceURL = "";
 
-// Store the password here (you can change this to any password you prefer)
-const ADMIN_PASSWORD = "spotify2025";
+// Password protection (client-side, hash-only)
+// 1) Generate a SHA-256 hex of your chosen password (see README or steps I'll share)
+// 2) Paste the 64-char hex string below. Do NOT paste the plaintext password.
+const ADMIN_PASSWORD_HASH = "56198f00bc88864c818a41dca946aa956931ea37790aa49f11e500838b4f664b"; // e.g. "5e884898da28047151d0e56f8dc629..."
+
+async function sha256Hex(str) {
+    const data = new TextEncoder().encode(str);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 // Check if user is already authenticated
 const isPasswordAuthenticated = sessionStorage.getItem('passwordAuthenticated') === 'true';
@@ -36,25 +45,36 @@ if (isPasswordAuthenticated) {
 }
 
 // Setup password listener
-document.getElementById('submitPassword').addEventListener('click', checkPassword);
+document.getElementById('submitPassword').addEventListener('click', () => { checkPassword(); });
 document.getElementById('passwordInput').addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         checkPassword();
     }
 });
 
-function checkPassword() {
-    const password = document.getElementById('passwordInput').value;
+async function checkPassword() {
+    const inputEl = document.getElementById('passwordInput');
     const errorElement = document.getElementById('passwordError');
-    
-    if (password === ADMIN_PASSWORD) {
-        // Store authentication in session storage
-        sessionStorage.setItem('passwordAuthenticated', 'true');
-        document.getElementById('passwordContainer').style.display = 'none';
-        errorElement.textContent = '';
-    } else {
-        errorElement.textContent = 'Incorrect password. Please try again.';
-        document.getElementById('passwordInput').value = '';
+    const password = inputEl.value;
+
+    if (!ADMIN_PASSWORD_HASH || ADMIN_PASSWORD_HASH === 'REPLACE_WITH_SHA256_HEX') {
+        errorElement.textContent = 'Admin password is not configured. Please set the hash in configure/script.js';
+        return;
+    }
+
+    try {
+        const inputHash = await sha256Hex(password);
+        if (inputHash === ADMIN_PASSWORD_HASH) {
+            sessionStorage.setItem('passwordAuthenticated', 'true');
+            document.getElementById('passwordContainer').style.display = 'none';
+            errorElement.textContent = '';
+        } else {
+            errorElement.textContent = 'Incorrect password. Please try again.';
+            inputEl.value = '';
+        }
+    } catch (e) {
+        console.error('Password check failed:', e);
+        errorElement.textContent = 'Unexpected error. Please try again.';
     }
 }
 
