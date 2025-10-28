@@ -16,8 +16,8 @@
     
 
     <section class="card" id="passwordHash">
-      <h2>🔒 Password Hash Generator (SHA-256)</h2>
-      <p>Create a SHA-256 hex hash of a password to use in <code>configure/script.js</code> (Option B).</p>
+      <h2>🔒 Password / Hash Generator (SHA-256)</h2>
+      <p>Create a SHA-256 hex hash of any password. Generate and copy the hash to use wherever you need.</p>
       <label>Password
         <input id="pwInput" type="password" placeholder="Enter password to hash" />
       </label>
@@ -29,12 +29,11 @@
         <code id="hashOutput">(hash will appear here)</code>
       </div>
       <details>
-        <summary>How to use</summary>
-        <ol>
-          <li>Enter your new password here and click Generate Hash.</li>
-          <li>Copy the hash and paste it into <code>ADMIN_PASSWORD_HASH</code> in <code>/configure/script.js</code>.</li>
-          <li>Commit and push changes. Your plaintext password never enters the repo.</li>
-        </ol>
+        <summary>Notes</summary>
+        <ul>
+          <li>This runs locally in your browser.</li>
+          <li>For best results open this page over HTTPS (required by some browsers).</li>
+        </ul>
       </details>
     </section>
 

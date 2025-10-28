@@ -5,6 +5,16 @@
   const copyHashBtn = document.querySelector('#copyHash');
   const hashOutput = document.querySelector('#hashOutput');
 
+  // Environment check: Web Crypto requires a secure context (HTTPS or localhost)
+  const hasSubtle = typeof window !== 'undefined' && window.crypto && window.crypto.subtle;
+  const isSecure = typeof window !== 'undefined' && window.isSecureContext;
+  if (!hasSubtle || !isSecure) {
+    hashOutput.textContent = 'This tool needs a secure context (HTTPS or localhost). Open https://fenris-nl.github.io/tools/ to use it.';
+    makeHashBtn.disabled = true;
+    copyHashBtn.disabled = true;
+    return;
+  }
+
   async function sha256Hex(str){
     const enc = new TextEncoder().encode(str);
     const buf = await crypto.subtle.digest('SHA-256', enc);
