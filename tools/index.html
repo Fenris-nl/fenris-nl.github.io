@@ -13,48 +13,7 @@
   </header>
 
   <main>
-    <section class="card" id="urlBuilder">
-      <h2>🔗 Widget URL Builder</h2>
-      <p>Generate a URL for the Spotify widget with your credentials and options.</p>
-      <div class="grid2">
-        <label>Client ID
-          <input id="clientId" type="text" placeholder="client_id" autocomplete="off" />
-        </label>
-        <label>Client Secret
-          <input id="clientSecret" type="password" placeholder="client_secret" autocomplete="off" />
-        </label>
-      </div>
-      <label>Refresh Token
-        <input id="refreshToken" type="text" placeholder="refresh_token" autocomplete="off" />
-      </label>
-      <div class="grid3">
-        <label>Duration (seconds)
-          <input id="duration" type="number" min="0" step="1" placeholder="0 = never hide" />
-        </label>
-        <label class="inline">
-          <input id="hideAlbumArt" type="checkbox" /> Hide Album Art
-        </label>
-        <label>Base URL
-          <input id="baseUrl" type="text" placeholder="https://fenris-nl.github.io" />
-        </label>
-      </div>
-      <div class="actions">
-        <button id="buildUrl">Build URL</button>
-        <button id="copyUrl" disabled>Copy</button>
-        <button id="clearStored">Clear Stored Values</button>
-      </div>
-      <div class="output">
-        <code id="resultUrl">(your URL will appear here)</code>
-      </div>
-      <details>
-        <summary>Tips</summary>
-        <ul>
-          <li>Base URL defaults to this site: <code>window.location.origin</code>.</li>
-          <li>Leave Duration empty or 0 to keep the widget visible.</li>
-          <li>Toggle Hide Album Art to append <code>&hideAlbumArt</code>.</li>
-        </ul>
-      </details>
-    </section>
+    
 
     <section class="card" id="passwordHash">
       <h2>🔒 Password Hash Generator (SHA-256)</h2>
