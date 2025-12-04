@@ -16,6 +16,36 @@ const hideAlbumArt = urlParams.has("hideAlbumArt");
 let currentState = false;
 let currentSongUri = "";
 
+//////////////////////
+// ANALYTICS BEACON //
+//////////////////////
+
+// ⚠️ REPLACE THIS with your Google Apps Script Web App URL (same one used in /dashboard/)
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgtwODSYY0cTgJKpA7RpkKGydBPWezL-u_luMwhzlHAQOnH70QxqH7xiGN9JVPunucFA/exec';
+
+// Send a single analytics ping when widget loads (non-blocking, silent fail)
+(async function sendAnalyticsBeacon() {
+  if (!APPS_SCRIPT_URL || !client_id) return;
+  try {
+    // Hash the client_id for privacy
+    const encoder = new TextEncoder();
+    const data = encoder.encode(client_id);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const userHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    // Fire and forget - don't wait for response
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userHash })
+    }).catch(() => {}); // Silently ignore errors
+  } catch (e) {
+    // Silently fail - analytics should never break the widget
+  }
+})();
+
 
 
 /////////////////
