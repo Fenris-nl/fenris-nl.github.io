@@ -29,7 +29,7 @@ let browserSourceURL = "";
 // Password protection (client-side, hash-only)
 // 1) Generate a SHA-256 hex of your chosen password (see README or steps I'll share)
 // 2) Paste the 64-char hex string below. Do NOT paste the plaintext password.
-const ADMIN_PASSWORD_HASH = "56198f00bc88864c818a41dca946aa956931ea37790aa49f11e500838b4f664b"; // e.g. "5e884898da28047151d0e56f8dc629..."
+const ADMIN_PASSWORD_HASH = "6a83f1b880d8c28788873c5a489182685598587e42c72f6fe6cd72951ec4f4d4"; // e.g. "5e884898da28047151d0e56f8dc629..."
 
 async function sha256Hex(str) {
     const data = new TextEncoder().encode(str);
