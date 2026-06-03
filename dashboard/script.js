@@ -1,7 +1,7 @@
 // Dashboard script - fetches stats from Google Apps Script
 (function() {
   // ⚠️ REPLACE THIS with your Google Apps Script Web App URL
-  const APPS_SCRIPT_URL = '';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgMZcWAVlRUeZA5NVdZ8xhYeD6hT-LxrlP-zLkQ1zHn8kpuqqdxcBGsnivbIxmLqK4Ew/exec';
 
   const setupSection = document.getElementById('setup-required');
   const statsContainer = document.getElementById('stats-container');
