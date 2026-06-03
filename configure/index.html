@@ -55,6 +55,26 @@
 			</label>
 			<button id="copyURLButton" onclick="CopyToURL()">Click to copy URL</button>
 			<br><br>
+			<div id="recoveryBox" style="text-align: left; max-width: 420px; margin: 0 auto;">
+				<hr style="border-color:#333; margin: 16px 0;">
+				<span style="font-weight: 500;">🔐 Save link for recovery (optional)</span>
+				<p style="font-size: 13px; color:#b3b3b3; margin: 6px 0 12px;">
+					Your link is encrypted in your browser before upload, so nobody else
+					(not even the site owner) can read it. Remember both fields &mdash; they
+					are the only way to recover your link, and they can't be reset.
+				</p>
+				<label style="font-size: 13px;">Recovery ID (e.g. your email or username)</label>
+				<br>
+				<input type="text" id="recoveryIdBox" autocomplete="off" style="width:100%;">
+				<br><br>
+				<label style="font-size: 13px;">Recovery passphrase</label>
+				<br>
+				<input type="password" id="recoveryPassBox" autocomplete="new-password" style="width:100%;">
+				<br><br>
+				<button id="saveRecoveryButton" onclick="SaveForRecovery()">Encrypt &amp; save link</button>
+				<div id="recoveryStatus" style="font-size: 13px; margin-top: 8px;"></div>
+			</div>
+			<br>
 			<button id="donateButton" onclick="OpenDonationPage()">Donate out of guilt</button>
 		</div>
 	</div>

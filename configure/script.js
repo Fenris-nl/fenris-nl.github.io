@@ -26,6 +26,72 @@ let refresh_token = "";
 let access_token = "";
 let browserSourceURL = "";
 
+// Google Apps Script Web App URL (same one used for analytics in /script.js).
+// Used only to store/retrieve ENCRYPTED link blobs for recovery. The script
+// never receives the plaintext link or any Spotify credentials.
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgtwODSYY0cTgJKpA7RpkKGydBPWezL-u_luMwhzlHAQOnH70QxqH7xiGN9JVPunucFA/exec';
+
+////////////////////////////////////////
+// ZERO-KNOWLEDGE RECOVERY (CLIENT-SIDE) //
+////////////////////////////////////////
+// The link is encrypted in the browser with a user-chosen passphrase before it
+// is uploaded. Only AES-GCM ciphertext leaves the device, so the Google Sheet
+// (and the site owner) can never read the Spotify secrets.
+
+// Base64 helpers for ArrayBuffer <-> string
+function bufToBase64(buf) {
+    return btoa(String.fromCharCode.apply(null, new Uint8Array(buf)));
+}
+function base64ToBuf(b64) {
+    const bin = atob(b64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return bytes.buffer;
+}
+
+// SHA-256 hex of a string (used as a non-secret lookup id)
+async function sha256HexStr(str) {
+    const data = new TextEncoder().encode(str);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hashBuffer))
+        .map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Derive an AES-GCM key from a passphrase + salt using PBKDF2
+async function deriveKey(passphrase, salt) {
+    const baseKey = await crypto.subtle.importKey(
+        'raw',
+        new TextEncoder().encode(passphrase),
+        'PBKDF2',
+        false,
+        ['deriveKey']
+    );
+    return crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt: salt, iterations: 150000, hash: 'SHA-256' },
+        baseKey,
+        { name: 'AES-GCM', length: 256 },
+        false,
+        ['encrypt', 'decrypt']
+    );
+}
+
+// Encrypt a string, returning everything needed to decrypt later (all base64)
+async function encryptString(plaintext, passphrase) {
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const key = await deriveKey(passphrase, salt);
+    const ciphertext = await crypto.subtle.encrypt(
+        { name: 'AES-GCM', iv: iv },
+        key,
+        new TextEncoder().encode(plaintext)
+    );
+    return {
+        salt: bufToBase64(salt.buffer),
+        iv: bufToBase64(iv.buffer),
+        ciphertext: bufToBase64(ciphertext)
+    };
+}
+
 // Password protection (client-side, hash-only)
 // 1) Generate a SHA-256 hex of your chosen password (see README or steps I'll share)
 // 2) Paste the 64-char hex string below. Do NOT paste the plaintext password.
@@ -286,6 +352,68 @@ function CopyToURL() {
         document.getElementById("copyURLButton").style.backgroundColor = "#ffffff";
         document.getElementById("copyURLButton").style.color = "#181818";
     }, 3000);
+}
+
+// Encrypt the current link with the user's passphrase and upload the ciphertext
+async function SaveForRecovery() {
+    const statusEl = document.getElementById("recoveryStatus");
+    const recoveryId = document.getElementById("recoveryIdBox").value.trim();
+    const passphrase = document.getElementById("recoveryPassBox").value;
+    const button = document.getElementById("saveRecoveryButton");
+
+    if (!browserSourceURL) {
+        statusEl.style.color = "#ff6b6b";
+        statusEl.textContent = "No link to save yet.";
+        return;
+    }
+    if (!recoveryId || !passphrase) {
+        statusEl.style.color = "#ff6b6b";
+        statusEl.textContent = "Enter both a recovery ID and a passphrase.";
+        return;
+    }
+    if (passphrase.length < 8) {
+        statusEl.style.color = "#ff6b6b";
+        statusEl.textContent = "Use a passphrase of at least 8 characters.";
+        return;
+    }
+    if (!APPS_SCRIPT_URL) {
+        statusEl.style.color = "#ff6b6b";
+        statusEl.textContent = "Recovery storage is not configured.";
+        return;
+    }
+
+    button.disabled = true;
+    statusEl.style.color = "#b3b3b3";
+    statusEl.textContent = "Encrypting and saving…";
+
+    try {
+        const lookup = await sha256HexStr(recoveryId.toLowerCase());
+        const encrypted = await encryptString(browserSourceURL, passphrase);
+
+        await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                type: 'savelink',
+                lookup: lookup,
+                salt: encrypted.salt,
+                iv: encrypted.iv,
+                ciphertext: encrypted.ciphertext
+            })
+        });
+
+        // no-cors gives an opaque response, so we can't read it; assume success
+        statusEl.style.color = "#00dd63";
+        statusEl.textContent = "Saved. Recover anytime with your ID + passphrase.";
+        document.getElementById("recoveryPassBox").value = "";
+    } catch (e) {
+        console.error("Save for recovery failed:", e);
+        statusEl.style.color = "#ff6b6b";
+        statusEl.textContent = "Could not save. Please try again.";
+    } finally {
+        button.disabled = false;
+    }
 }
 
 function OpenInstructions() {

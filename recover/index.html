@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recover your link</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main>
+    <div class="card">
+      <h1>🔐 Recover your link</h1>
+      <p class="muted">
+        Enter the recovery ID and passphrase you chose when you saved your link.
+        Everything is decrypted in your browser &mdash; the server only ever stores
+        unreadable, encrypted data.
+      </p>
+
+      <label>Recovery ID</label>
+      <input type="text" id="recoveryIdBox" autocomplete="off" placeholder="e.g. your email or username" />
+
+      <label>Recovery passphrase</label>
+      <input type="password" id="recoveryPassBox" autocomplete="current-password" placeholder="Your passphrase" />
+
+      <button id="recoverButton">Recover link</button>
+
+      <div id="statusMsg" class="status"></div>
+
+      <div id="resultBox" class="result" style="display:none;">
+        <label>Your link</label>
+        <textarea id="resultLink" readonly rows="4"></textarea>
+        <button id="copyButton">Copy link</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
