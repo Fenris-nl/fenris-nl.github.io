@@ -21,7 +21,7 @@ let currentSongUri = "";
 //////////////////////
 
 // ⚠️ REPLACE THIS with your Google Apps Script Web App URL (same one used in /dashboard/)
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgtwODSYY0cTgJKpA7RpkKGydBPWezL-u_luMwhzlHAQOnH70QxqH7xiGN9JVPunucFA/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgMZcWAVlRUeZA5NVdZ8xhYeD6hT-LxrlP-zLkQ1zHn8kpuqqdxcBGsnivbIxmLqK4Ew/exec';
 
 // Send a single analytics ping when widget loads (non-blocking, silent fail)
 (async function sendAnalyticsBeacon() {

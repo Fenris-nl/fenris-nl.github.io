@@ -4,7 +4,8 @@
 // passphrase, so it cannot read the stored Spotify credentials.
 (function () {
   // ⚠️ Must match the Web App URL used in /script.js and /configure/script.js
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgtwODSYY0cTgJKpA7RpkKGydBPWezL-u_luMwhzlHAQOnH70QxqH7xiGN9JVPunucFA/exec';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgMZcWAVlRUeZA5NVdZ8xhYeD6hT-LxrlP-zLkQ1zHn8kpuqqdxcBGsnivbIxmLqK4Ew/exec';
+  
 
   const idBox = document.getElementById('recoveryIdBox');
   const passBox = document.getElementById('recoveryPassBox');

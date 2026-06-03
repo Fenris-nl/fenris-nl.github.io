@@ -29,7 +29,7 @@ let browserSourceURL = "";
 // Google Apps Script Web App URL (same one used for analytics in /script.js).
 // Used only to store/retrieve ENCRYPTED link blobs for recovery. The script
 // never receives the plaintext link or any Spotify credentials.
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgtwODSYY0cTgJKpA7RpkKGydBPWezL-u_luMwhzlHAQOnH70QxqH7xiGN9JVPunucFA/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgMZcWAVlRUeZA5NVdZ8xhYeD6hT-LxrlP-zLkQ1zHn8kpuqqdxcBGsnivbIxmLqK4Ew/exec';
 
 ////////////////////////////////////////
 // ZERO-KNOWLEDGE RECOVERY (CLIENT-SIDE) //
